@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  id       Int        @id @default(autoincrement())
+  name     String
+  elements elements[]
+}
+
+model details_movements {
+  id          Int       @id @default(autoincrement())
+  id_movement Int
+  id_element  Int
+  cant        Int
+  elements    elements  @relation(fields: [id_element], references: [id], onDelete: Cascade)
+  movements   movements @relation(fields: [id_movement], references: [id], onDelete: Cascade)
+
+  @@index([id_element], map: "details_movements_id_element_fkey")
+  @@index([id_movement], map: "details_movements_id_movement_fkey")
+}
+
+model elements {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  brand             String?
+  color             String?
+  stock             Int                 @default(0)
+  description       String?
+  state             elements_state      @default(active)
+  id_categorie      Int
+  id_size           Int
+  details_movements details_movements[]
+  categories        categories          @relation(fields: [id_categorie], references: [id], onDelete: Cascade)
+  sizes             sizes               @relation(fields: [id_size], references: [id], onDelete: Cascade)
+
+  @@index([id_categorie], map: "elements_id_categorie_fkey")
+  @@index([id_size], map: "elements_id_size_fkey")
+}
+
+model movements {
+  id                Int                 @id @default(autoincrement())
+  sheet             Int
+  date              DateTime            @default(now()) @db.Date
+  description       String?
+  id_user           Int
+  type              movements_type
+  details_movements details_movements[]
+  users             users               @relation(fields: [id_user], references: [id], onDelete: Cascade)
+
+  @@index([id_user], map: "movements_id_user_fkey")
+}
+
+model sizes {
+  id       Int        @id @default(autoincrement())
+  name     String
+  elements elements[]
+}
+
+model users {
+  id        Int         @id
+  name      String
+  password  String
+  email     String      @unique
+  rol       users_rol   @default(user)
+  phone     String?
+  movements movements[]
+}
+
+enum users_rol {
+  user
+  admin
+}
+
+enum movements_type {
+  entry
+  output
+}
+
+enum elements_state {
+  active
+  inactive
+}
