@@ -23,6 +23,7 @@ app.use("/v1", isAdmin, categoriesRouter)
 app.use("/v1", isAdmin, sizesRouter)
 app.use("/v1", isAdmin, movementsRouter)
 app.use("/v1", isAdmin, detailsRouter)
+
 app.get("/routes", (req, res, next) => {
     res.status(200).send(endPoints(app))
 })

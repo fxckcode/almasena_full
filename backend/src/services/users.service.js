@@ -13,7 +13,7 @@ function createUserByNameAndEmailAndPassword(user) {
     user.password = bcrypt.hashSync(user.password, 12)
     return prisma.users.create({
         data: {
-            id: user.id,
+            id: parseInt(user.id),
             email: user.email,
             name: user.name,
             password: user.password
