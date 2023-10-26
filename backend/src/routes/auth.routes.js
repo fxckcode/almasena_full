@@ -10,7 +10,7 @@ const router = Router()
 router.post('/register', async (req, res, next) => {
     try {
         const { name, email, password, id} = req.body;
-        if (!name || !email || !password) {
+        if (!name || !email || !password || !id) {
             res.status(400)
             throw new Error("You must provide an email and a password.")
         }
@@ -18,8 +18,7 @@ router.post('/register', async (req, res, next) => {
         const existingUser = await findUserByEmail(email)
 
         if (existingUser) {
-            res.status(400)
-            throw new Error("Email already in use.")
+            res.status(400).send({ "mensaje": "Correo ya existente"})
         }
 
         const user = await createUserByNameAndEmailAndPassword({name, email, password, id})
@@ -31,7 +30,7 @@ router.post('/register', async (req, res, next) => {
         
 
     } catch (error) {
-        next(error)
+        res.status(400) 
     }
 })
 

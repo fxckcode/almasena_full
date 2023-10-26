@@ -4,7 +4,7 @@ import { isAdmin, isAuthenticated } from '../middlewares.js'
 const router = Router()
 
 
-router.get("/elements", isAuthenticated, async (req, res, next) => {
+router.get("/elements", async (req, res, next) => {
     try {
         const elements = await getElements()
         res.json(elements)

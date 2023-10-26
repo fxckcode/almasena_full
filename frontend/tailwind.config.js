@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultColor = require("tailwindcss/colors")
 export default {
   content: [
     "./index.html",
@@ -46,6 +47,7 @@ export default {
       success: '#219653',
       danger: '#D34053',
       warning: '#FFA70B',
+      ...defaultColor
     },
     screens: {
       '2xsm': '375px',

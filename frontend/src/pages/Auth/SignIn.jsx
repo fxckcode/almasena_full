@@ -23,6 +23,7 @@ function SignIn() {
                 toast.error('Credenciales erroneas!');
             } else {
                 const { token } = response.data
+                localStorage.setItem('token', token);
                 navigate("/home")
                 toast.success("Inicio de sesión exitoso" , { duration: 3000 })
             }
