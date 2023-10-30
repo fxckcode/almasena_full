@@ -24,7 +24,7 @@ function SignIn() {
             } else {
                 const { token } = response.data
                 localStorage.setItem('token', token);
-                navigate("/home")
+                navigate("/")
                 toast.success("Inicio de sesión exitoso" , { duration: 3000 })
             }
         }).catch(error => console.error(error))

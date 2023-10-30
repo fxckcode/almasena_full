@@ -27,7 +27,7 @@ function SignUp() {
             axiosClient.post("/auth/register", data).then((response) => {
                 localStorage.setItem('token', response.data.token)
                 toast.success("Registro Completado con exito!")
-                navigate("/home")
+                navigate("/")
             }).catch(error => {
                 toast.error("Se ha presentado un error al realizar el registro :c")
             }); 

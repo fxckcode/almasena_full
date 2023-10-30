@@ -14,7 +14,6 @@ function Home() {
     const getElements = async () => {
       await axiosClient.get("/v1/elements").then((response) => {
         setElements(response.data);
-        console.log(response.data);
       })
     }
     getElements()
@@ -23,10 +22,12 @@ function Home() {
   
   return (
     <>
-      <h1>Inventario</h1>
+      <div className='w-full flex flex-row justify-between py-2 items-center'>
+        <h1 className='text-primary text-2xl font-satoshi font-semibold'>Inventario</h1>
+        <button className='p-2 bg-primary rounded-lg text-white hover:scale-105 transition-all'>+ Crear</button>
+      </div>
       <Box sx={{ height: 1, width: 1 }}>
         <DataGrid
-          
           disableColumnFilter
           disableColumnSelector
           disableDensitySelector
@@ -38,6 +39,7 @@ function Home() {
               showQuickFilter: true,
             },
           }}
+          getRowHeight={() => 'auto'}
         />
       </Box>
     </>
