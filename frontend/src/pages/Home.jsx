@@ -8,17 +8,17 @@ import { columnsHome } from '../constants/columnsHome';
 
 
 function Home() {
-  const [elements, setElements] = useState([]);
-  useEffect(() => {
+    const [elements, setElements] = useState([]);
+    useEffect(() => {
 
-    const getElements = async () => {
-      await axiosClient.get("/v1/elements").then((response) => {
-        setElements(response.data);
-      })
-    }
-    getElements()
-
-  }, [])
+      const getElements = async () => {
+        await axiosClient.get("/v1/elements").then((response) => {
+          setElements(response.data);
+        })
+      }
+      getElements()
+      console.log("Se actualizó el componente");
+    }, [elements])
   
   return (
     <>
@@ -40,6 +40,7 @@ function Home() {
             },
           }}
           getRowHeight={() => 'auto'}
+          getRowClassName={({ row }) => row.state == 'inactive' ? 'bg-red-100' : ''}
         />
       </Box>
     </>

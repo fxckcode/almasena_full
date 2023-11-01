@@ -1,7 +1,7 @@
 const navLinks = [
     {
-        "path" : "/home",
-        "route": "home",
+        "path" : "/",
+        "route": "",
         "name": "Inventario"
     },
     {

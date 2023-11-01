@@ -1,17 +1,36 @@
 import toast from "react-hot-toast";
-import desactiveElement from "../hooks/desactiveElement";
 
-export const desactiveToast = (id, estatus) => {
+export const desactiveToast = (id, status) => {
     toast.custom((t) => (
         <div
             className={`${t.visible ? 'animate-enter' : 'animate-leave'
                 } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 p-4 flex-col gap-3`}
         >
-            <h1>¿Estas seguro que quires desactivar este elemento?</h1>
+            <h1>¿Estas seguro que quires {status == true ? 'desactivar' : 'activar'} este elemento?</h1>
             <div className="flex flex-row gap-3">
-                <button className="p-1 bg-red-700 text-white rounded hover:scale-105 transition-all" onClick={() => desactiveElement(111, true) }>Desactivar</button>
-                <button onClick={() => toast.dismiss(t.id)} className="p-1 bg-primary text-white rounded hover:scale-105 transition-all">Cancelar</button>
+                <button className={`p-1 ${status == true ? `bg-red-700` : 'bg-green-700'}  text-white rounded hover:scale-105 transition-all`} onClick={() => {
+                    if (desactiveElement(id, status)) {
+                        desactive(t.id)
+                      } else {
+                        toast.error("Error al desactivar el elemento");
+                      }
+                } }>{status == true ? 'Desactivar' : 'Activar'}</button>
+                <button onClick={() => toast.dismiss(t.id)} className={`p-1 ${status == true ? `bg-primary` : 'bg-red-700'} text-white rounded hover:scale-105 transition-all`}>Cancelar</button>
             </div>
         </div>
     ))
+}
+
+const desactive = (id_toast) => {
+    toast.remove(id_toast);
+    toast.success("Elemento desactivado con exito", { duration: 100, autoClose: true});
+}
+
+const desactiveElement = (id, status) => {
+    try {
+        console.log(id, status);
+        return true;
+    } catch (error) {
+        console.log(error);
+    }
 }

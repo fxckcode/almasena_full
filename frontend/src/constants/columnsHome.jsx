@@ -26,7 +26,7 @@ export const columnsHome = [
         width: 100,
         getActions: ({ row }) => [
           <GridActionsCellItem icon={<EditIcon />} label="Edit"/>,
-          <GridActionsCellItem icon={(row.state == 'active') ? <CloseIcon /> : <CheckIcon /> } label="Desactive" title={`${row.state == 'active' ? 'Desactivar' : 'Activar'}`} onClick={() => desactiveToast(11, 11)}  />,
+          <GridActionsCellItem icon={(row.state == 'active') ? <CloseIcon /> : <CheckIcon /> } label="Desactive" title={`${row.state == 'active' ? 'Desactivar' : 'Activar'}`} onClick={() => desactiveToast(row.id, row.state == 'active' ? true : false)}  />,
         ],
       },
 

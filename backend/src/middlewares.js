@@ -11,7 +11,11 @@ export const isAuthenticated = (req, res, next) => {
         jwt.verify(token, process.env.SECRET_TOKEN)
         return next();
     } catch (err) {
-        console.log(err);
+        if (err.name === 'TokenExpiredError') {
+            res.status(401).send({ message: "Token expired" });
+        } else {
+            console.log(err);
+        }
     }
 
 }
@@ -32,6 +36,10 @@ export const isAdmin = (req, res, next) => {
             res.status(400).send({ message: "Access denied!" });
         }
     } catch (error) { 
-        console.log(error);
+        if (err.name === 'TokenExpiredError') {
+            res.status(401).send({ message: "Token expired" });
+        } else {
+            console.log(err);
+        }
     }
 }
