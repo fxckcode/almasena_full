@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import axiosClient from '../axios-client.js';
 
 export const desactiveToast = (id, status) => {
     toast.custom((t) => (
@@ -9,8 +10,8 @@ export const desactiveToast = (id, status) => {
             <h1>¿Estas seguro que quires {status == true ? 'desactivar' : 'activar'} este elemento?</h1>
             <div className="flex flex-row gap-3">
                 <button className={`p-1 ${status == true ? `bg-red-700` : 'bg-green-700'}  text-white rounded hover:scale-105 transition-all`} onClick={() => {
-                    if (desactiveElement(id, status)) {
-                        desactive(t.id)
+                    if (desactiveElement(id)) {
+                        desactive(t.id, status)
                       } else {
                         toast.error("Error al desactivar el elemento");
                       }
@@ -21,14 +22,16 @@ export const desactiveToast = (id, status) => {
     ))
 }
 
-const desactive = (id_toast) => {
+const desactive = (id_toast, status) => {
     toast.remove(id_toast);
-    toast.success("Elemento desactivado con exito", { duration: 100, autoClose: true});
+    toast.success(`Elemento ${ status == true ? 'desactivado' : 'activado'} con exito`, { duration: 100, autoClose: true});
 }
 
-const desactiveElement = (id, status) => {
+const desactiveElement = (id) => {
     try {
-        console.log(id, status);
+        axiosClient.delete(`/v1/elements/${id}`).then((response) => {
+            location.reload()
+        })
         return true;
     } catch (error) {
         console.log(error);
