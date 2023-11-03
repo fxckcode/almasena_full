@@ -5,7 +5,7 @@ import SignIn from "./pages/Auth/SignIn"
 import { Toaster } from "react-hot-toast"
 import DefaultLayout from "./layout/DefaultLayout"
 import Logout from "./pages/Auth/Logout"
-import ProtectedRoute from "./utils/ProtectedRoute"
+import ProtectedRoute from "./utils/ProtectedRoute" 
 
 function App() {
 

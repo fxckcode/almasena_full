@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect } from 'react';
@@ -9,8 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check'
 import CloseIcon from '@mui/icons-material/Close'
 import { desactiveToast } from "../customToasts/desactiveToast";
-import EditModal from "../components/editModal";
-
+import EditModal from '../components/editModal';
 
 function Home() {
   const [elements, setElements] = useState([]);
@@ -63,7 +62,7 @@ function Home() {
       <div className='w-full flex flex-row justify-between py-2 items-center'>
         <h1 className='text-primary text-2xl font-satoshi font-semibold'>Inventario</h1>
         <button className='p-2 bg-primary rounded-lg text-white hover:scale-105 transition-all'>+ Crear</button>
-      </div>
+      </div>  
       <EditModal open={openModalEdit} onClose={() => setOpenModalEdit(false)} row={row}/>
       <Box sx={{ height: 1, width: 1 }}>
         <DataGrid
