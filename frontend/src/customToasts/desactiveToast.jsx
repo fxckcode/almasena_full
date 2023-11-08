@@ -30,7 +30,9 @@ const desactive = (id_toast, status) => {
 const desactiveElement = (id) => {
     try {
         axiosClient.delete(`/v1/elements/${id}`).then((response) => {
-            location.reload()
+            setTimeout(() => {
+                location.reload()
+            }, 1000)
         })
         return true;
     } catch (error) {
