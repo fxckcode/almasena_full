@@ -1,11 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import navLinks from '../constants/navLinks';
+import UserContext from '../context/UserContext';
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
   const { pathname } = location;
+  const { user } = useContext(UserContext) 
 
   const trigger = useRef(null);
   const sidebar = useRef(null);

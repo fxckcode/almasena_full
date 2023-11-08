@@ -2,7 +2,7 @@ const navLinks = [
     {
         "path" : "/",
         "route": "",
-        "name": "Inventario"
+        "name": "Inventario",
     },
     {
         "path" : "/salidas",

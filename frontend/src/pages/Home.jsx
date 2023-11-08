@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React, { lazy, useContext } from 'react'
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect } from 'react';
@@ -12,6 +12,8 @@ import { desactiveToast } from "../customToasts/desactiveToast";
 import EditModal from '../components/editModal';
 import CreateModal from '../components/CreateModal';
 import DesactiveModal from '../components/DesactiveModal';
+import UserContext from '../context/UserContext';
+import AddStock from '../components/AddStock';
 
 function Home() {
   const [elements, setElements] = useState([]);
@@ -19,6 +21,7 @@ function Home() {
   const [ openModalCreate, setOpenModalCreate ] = useState(false)
   const [ openModalDesactive, setOpenModalDesactive ] = useState(false)
   const [ row, setRow ] = useState([])
+  const { user } = useContext(UserContext)
   useEffect(() => {
 
     const getElements = async () => {
@@ -27,6 +30,7 @@ function Home() {
       })
     }
     getElements()
+    document.title = "AlmaSENA | Inicio"
   }, [openModalEdit, openModalCreate, openModalDesactive])
 
   const columnsHome = [
@@ -45,6 +49,7 @@ function Home() {
     { field: 'color', headerName: 'COLOR', flex: 1 },
     { field: 'stock', headerName: 'EXISTENCIAS', flex: 1 },
     { field: 'description', headerName: 'DESCRIPCION', flex: 1 },
+    user.rol == "admin" ? 
     {
       field: 'actions',
       type: 'actions',
@@ -54,13 +59,12 @@ function Home() {
           setOpenModalEdit(true)
           setRow(row)
         }} />,
-        // <GridActionsCellItem icon={(row.state == 'active') ? <CloseIcon /> : <CheckIcon />} label="Desactive" title={`${row.state == 'active' ? 'Desactivar' : 'Activar'}`} onClick={() => desactiveToast(row.id, row.state == 'active' ? true : false)} />,
          <GridActionsCellItem icon={(row.state == 'active') ? <CloseIcon /> : <CheckIcon />} label="Desactive" title={`${row.state == 'active' ? 'Desactivar' : 'Activar'}`} onClick={() => {
           setOpenModalDesactive(true)
           setRow(row)
          } } />,
       ],
-    },
+    }: ''
 
   ]
 
@@ -69,7 +73,7 @@ function Home() {
     <>
       <div className='w-full flex flex-row justify-between py-2 items-center'>
         <h1 className='text-primary text-2xl font-satoshi font-semibold'>Inventario</h1>
-        <button className='p-2 bg-primary rounded-lg text-white hover:scale-105 transition-all' onClick={() => setOpenModalCreate(true)}>+ Crear</button>
+        { user.rol == 'admin' ? ( <button className='p-2 bg-primary rounded-lg text-white hover:scale-105 transition-all' onClick={() => setOpenModalCreate(true)}>+ Crear</button> ) : '' }
       </div> 
       <EditModal open={openModalEdit} onClose={() => setOpenModalEdit(false)} row={row}/>
       <CreateModal open={openModalCreate} onClose={() => setOpenModalCreate(false)}/>
@@ -91,6 +95,7 @@ function Home() {
           getRowClassName={({ row }) => row.state == 'inactive' ? 'bg-red-100' : ''}
         />
       </Box>
+      <AddStock />
     </>
   )
 }

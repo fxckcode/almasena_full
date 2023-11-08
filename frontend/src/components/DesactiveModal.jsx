@@ -24,7 +24,7 @@ function DesactiveModal({ open, onClose, row }) {
                     <CloseIcon className='hover:text-primary transition-all' onClick={() => onClose()} />
                 </div>
                 <div className='w-full flex flex-col gap-5'>
-                    <h1>¿Estas seguro que quieres desactivar este elemento?</h1>
+                    <h1>¿Estas seguro que quieres { row.state == 'active' ? 'desactivar' : 'activar' } este elemento?</h1>
                     <form method='POST' onSubmit={handleSubmit} className='flex flex-row gap-3'>
                         <button type='submit' className={`p-1 ${row.state == 'active' ? `bg-red-700` : 'bg-green-700'}  text-white rounded hover:scale-105 transition-all`}>{row.state == 'active' ? "Desactivar" : 'Activar'}</button>
                         <button onClick={() => onClose(false)}
