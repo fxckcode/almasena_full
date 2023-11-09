@@ -58,7 +58,7 @@ function AddStock({ onSubmitSuccess }) {
                             <option value="">Seleccionar categoria...</option>
                             {
                                 categories.map((c, index) => (
-                                    <option value={c.id} key={index}>{c.name}</option>
+                                    <option value={c.id} key={c.id}>{c.name}</option>
                                 ))
                             }
                         </select>
@@ -70,7 +70,7 @@ function AddStock({ onSubmitSuccess }) {
                             <option value="">Seleccionar elemento...</option>
                             {
                                  elements.filter((e) => e.categories.id == selectCategories).map((e, index) => (
-                                    <option value={e.id} key={index}>{e.name} - {e.sizes.name} - {e.brand}</option>
+                                    <option value={e.id} key={e.id}>{e.name} - {e.sizes.name} - {e.brand}</option>
                                 ))
                             }
                         </select>
