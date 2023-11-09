@@ -45,7 +45,7 @@ model elements {
 
 model movements {
   id                Int                 @id @default(autoincrement())
-  sheet             Int
+  sheet             Int?
   date              DateTime            @default(now()) @db.Date
   description       String?
   id_user           Int

@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import { getMovements, createMovement, getMovementById, updateMovementById, deleteMovement } from '../services/movements.service.js'
+import { createDetails } from '../services/movements_details.service.js'
+import prisma from '../../utils/prisma.js'
 const router = Router()
 
 router.get("/movements", async (req, res, next) => {
@@ -15,7 +17,27 @@ router.post("/movements", async (req, res, next) => {
     try {
         const data = req.body;
         const movement = await createMovement(data)
-        res.json(movement)
+        const dataDatails = {
+            id_movement: movement.id,
+            id_element: parseInt(data.element),
+            cant: parseInt(data.cant)
+        }
+        const movement_details = await createDetails(dataDatails)
+        const element = await prisma.elements.findFirst({
+            where: {
+                id: parseInt(data.element)
+            }
+        })
+
+        await prisma.elements.update({
+            data: {
+                stock: parseInt(element.stock) + parseInt(data.cant)
+            }, where: {
+                id: parseInt(data.element)
+            }
+        })
+
+        res.json(movement_details)
     } catch (error) {
         next(error)
     }

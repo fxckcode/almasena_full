@@ -97,12 +97,12 @@ function EditModal({ open, onClose, row }) {
                             </div>
                             <div className='flex flex-col gap-3 w-1/2'>
                                 <label htmlFor="stock">Existencias</label>
-                                <input name='stock' min={0} type="number" defaultValue={row.stock} placeholder='Existencias disponibles' ref={stock} className='p-2 border border-gray-400 rounded-lg' required/>
+                                <input name='stock' min={0} type="number" defaultValue={row.stock} placeholder='Existencias disponibles' ref={stock} className='p-2 border border-gray-400 rounded-lg' required readOnly/>
                             </div>
                         </div>
                         <div className='flex flex-col gap-3 w-full'>
                             <label htmlFor="description">Descripción</label>
-                            <textarea name="description" id="" cols="30" rows="2" value={row.description} placeholder='Descripción del elemento' ref={description} className='p-2 border border-gray-400 rounded-lg'></textarea>
+                            <textarea name="description" id="" cols="30" rows="2" defaultValue={row.description} placeholder='Descripción del elemento' ref={description} className='p-2 border border-gray-400 rounded-lg'></textarea>
                         </div>
                         <button type='submit' className='py-2 bg-primary text-white rounded-lg hover:scale-105 transition-all'>Editar Elemento</button>
                     </form>

@@ -12,7 +12,9 @@ export function getMovements() {
 export function createMovement(data) {
     return prisma.movements.create({
         data: {
-            ...data
+            description: data.description,
+            id_user: parseInt(data.id_user),
+            type: data.type
         }
     })
 }
