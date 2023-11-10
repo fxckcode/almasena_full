@@ -35,6 +35,7 @@ model elements {
   state             elements_state      @default(active)
   id_categorie      Int
   id_size           Int
+  updated_at  DateTime @default(now()) @updatedAt
   details_movements details_movements[]
   categories        categories          @relation(fields: [id_categorie], references: [id], onDelete: Cascade)
   sizes             sizes               @relation(fields: [id_size], references: [id], onDelete: Cascade)

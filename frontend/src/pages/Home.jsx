@@ -13,12 +13,15 @@ import CreateModal from '../components/CreateModal';
 import DesactiveModal from '../components/DesactiveModal';
 import UserContext from '../context/UserContext';
 import AddStock from '../components/AddStock';
+import ArticleIcon from '@mui/icons-material/Article';
+import ModalLog from '../components/ModalLog';
 
 function Home() {
   const [elements, setElements] = useState([]);
   const [openModalEdit, setOpenModalEdit] = useState(false)
   const [openModalCreate, setOpenModalCreate] = useState(false)
   const [openModalDesactive, setOpenModalDesactive] = useState(false)
+  const [ openModalLog, setOpenModalLog ] = useState(false)
   const [row, setRow] = useState([])
   const { user } = useContext(UserContext)
   const [ update, setUpdate ] = useState(false)
@@ -49,12 +52,18 @@ function Home() {
     { field: 'color', headerName: 'COLOR', flex: 1 },
     { field: 'stock', headerName: 'EXISTENCIAS', flex: 1 },
     { field: 'description', headerName: 'DESCRIPCION', flex: 1 },
+    { field: 'updated_at', headerName: 'FECHA'},
     user.rol == "admin" ?
       {
         field: 'actions',
         type: 'actions',
         width: 100,
         getActions: ({ row }) => [
+          <GridActionsCellItem icon={<ArticleIcon/>} label="History" title="Historia de existencias"
+            onClick={() => {
+              setOpenModalLog(true)
+              setRow(row)
+            }} />,
           <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={() => {
             setOpenModalEdit(true)
             setRow(row)
@@ -63,6 +72,7 @@ function Home() {
             setOpenModalDesactive(true)
             setRow(row)
           }} />,
+          
         ],
       } : ''
 
@@ -78,6 +88,9 @@ function Home() {
       <EditModal open={openModalEdit} onClose={() => setOpenModalEdit(false)} row={row} />
       <CreateModal open={openModalCreate} onClose={() => setOpenModalCreate(false)} />
       <DesactiveModal open={openModalDesactive} onClose={() => setOpenModalDesactive(false)} row={row} />
+      { openModalLog && ( 
+        <ModalLog open={openModalLog} onClose={() => setOpenModalLog(false)} row={row} />
+      ) }
       <div className='flex flex-col gap-3'>
         <Box sx={{ height: 1, width: 1 }}>
           <DataGrid
@@ -94,6 +107,14 @@ function Home() {
             }}
             getRowHeight={() => 'auto'}
             getRowClassName={({ row }) => row.state == 'inactive' ? 'bg-red-100' : ''}
+            initialState={{
+              sorting: {
+                sortModel: [{ field: 'updated_at', sort: 'desc' }],
+              },
+            }}
+            columnVisibilityModel={{
+              updated_at: false
+            }}
           />
         </Box>
         { user.rol == 'admin' ? (<AddStock  onSubmitSuccess={() => setUpdate(!update)} />) : ''}

@@ -1,12 +1,14 @@
-import React, {lazy, useEffect, useRef} from 'react'
+import React, {lazy, useContext, useEffect, useRef} from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import loginImage from '../../assets/loginImage.jpg'
 import axiosClient from '../../axios-client.js'
 import toast, { Toaster } from 'react-hot-toast';
+import UserContext from '../../context/UserContext.jsx';
 function SignIn() {
     const email = useRef(null)
     const password = useRef(null)
     const navigate = useNavigate()
+    const { setUser } = useContext(UserContext)
     useEffect(() => {
         document.title = "AlmaSENA | Login"
     }, [])
@@ -22,8 +24,9 @@ function SignIn() {
             if (response.data == 403) {
                 toast.error('Credenciales erroneas!');
             } else {
-                const { token } = response.data
+                const { token, user } = response.data
                 localStorage.setItem('token', token);
+                setUser(user)
                 navigate("/")
                 toast.success("Inicio de sesión exitoso" , { duration: 3000 })
             }
