@@ -14,17 +14,17 @@ import DesactiveModal from '../components/DesactiveModal';
 import UserContext from '../context/UserContext';
 import AddStock from '../components/AddStock';
 import ArticleIcon from '@mui/icons-material/Article';
-import ModalLog from '../components/ModalLog';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [elements, setElements] = useState([]);
   const [openModalEdit, setOpenModalEdit] = useState(false)
   const [openModalCreate, setOpenModalCreate] = useState(false)
   const [openModalDesactive, setOpenModalDesactive] = useState(false)
-  const [ openModalLog, setOpenModalLog ] = useState(false)
   const [row, setRow] = useState([])
   const { user } = useContext(UserContext)
   const [ update, setUpdate ] = useState(false)
+  const navigate = useNavigate()
   useEffect(() => {
 
     const getElements = async () => {
@@ -61,8 +61,7 @@ function Home() {
         getActions: ({ row }) => [
           <GridActionsCellItem icon={<ArticleIcon/>} label="History" title="Historia de existencias"
             onClick={() => {
-              setOpenModalLog(true)
-              setRow(row)
+              navigate(`registro/${row.id}`)
             }} />,
           <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={() => {
             setOpenModalEdit(true)
@@ -88,9 +87,6 @@ function Home() {
       <EditModal open={openModalEdit} onClose={() => setOpenModalEdit(false)} row={row} />
       <CreateModal open={openModalCreate} onClose={() => setOpenModalCreate(false)} />
       <DesactiveModal open={openModalDesactive} onClose={() => setOpenModalDesactive(false)} row={row} />
-      { openModalLog && ( 
-        <ModalLog open={openModalLog} onClose={() => setOpenModalLog(false)} row={row} />
-      ) }
       <div className='flex flex-col gap-3'>
         <Box sx={{ height: 1, width: 1 }}>
           <DataGrid

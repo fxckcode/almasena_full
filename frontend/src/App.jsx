@@ -7,6 +7,7 @@ import DefaultLayout from "./layout/DefaultLayout"
 import Logout from "./pages/Auth/Logout"
 import ProtectedRoute from "./utils/ProtectedRoute"
 import { UserProvider } from "./context/UserContext"
+import LogEntry from "./pages/LogEntry"
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route element={<DefaultLayout />}>
             <Route element={<ProtectedRoute />}>
               <Route path="/" Component={Home} />
+              <Route path="/registro/:id" Component={LogEntry} />
             </Route>
           </Route>
         </Routes>
