@@ -1,12 +1,12 @@
 const navLinks = [
     {
-        "path" : "/",
-        "route": "",
+        "path" : "/home",
+        "route": "/home",
         "name": "Inventario",
     },
     {
-        "path" : "/salidas",
-        "route": "salidas",
+        "path" : "/exits",
+        "route": "exits",
         "name": "Salidas"
     }
 

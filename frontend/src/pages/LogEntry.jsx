@@ -55,7 +55,7 @@ function LogEntry() {
 
   return (
     <>
-      <a href="/" className='underline'>{'<'} Volver al inicio</a>
+      <a href="/home" className='underline'>{'<'} Volver al inicio</a>
       <h1 className='font-semibold text-xl text-primary mb-3'>Historial de movimientos del elemento</h1>
       <Box sx={{ height: 1, width: 1 }}>
         <DataGrid

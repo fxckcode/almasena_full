@@ -69,7 +69,7 @@ function AddStock({ onSubmitSuccess }) {
                         disabled={ selectCategories == null ? true : false } ref={element} required>
                             <option value="">Seleccionar elemento...</option>
                             {
-                                 elements.filter((e) => e.categories.id == selectCategories).map((e, index) => (
+                                 elements.filter((e) => e.categories.id == selectCategories).filter((e) => e.state == 'active').map((e, index) => (
                                     <option value={e.id} key={e.id}>{e.name} - {e.sizes.name} - {e.brand}</option>
                                 ))
                             }

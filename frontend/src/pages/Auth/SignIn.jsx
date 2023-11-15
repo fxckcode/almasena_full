@@ -27,7 +27,7 @@ function SignIn() {
                 const { token, user } = response.data
                 localStorage.setItem('token', token);
                 setUser(user)
-                navigate("/")
+                navigate("/home")
                 toast.success("Inicio de sesión exitoso" , { duration: 3000 })
             }
         }).catch(error => console.error(error))

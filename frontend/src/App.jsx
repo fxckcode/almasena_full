@@ -8,6 +8,8 @@ import Logout from "./pages/Auth/Logout"
 import ProtectedRoute from "./utils/ProtectedRoute"
 import { UserProvider } from "./context/UserContext"
 import LogEntry from "./pages/LogEntry"
+import Exits from "./pages/Exits"
+import Redirect from "./pages/Redirect"
 
 function App() {
 
@@ -21,8 +23,10 @@ function App() {
           <Route path="/logout" Component={Logout} />
           <Route element={<DefaultLayout />}>
             <Route element={<ProtectedRoute />}>
-              <Route path="/" Component={Home} />
+              <Route path="/home" Component={Home} />
               <Route path="/registro/:id" Component={LogEntry} />
+              <Route path="/exits" Component={Exits} />
+              <Route path="/" Component={Redirect} />
             </Route>
           </Route>
         </Routes>

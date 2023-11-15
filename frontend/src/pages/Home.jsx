@@ -61,7 +61,7 @@ function Home() {
         getActions: ({ row }) => [
           <GridActionsCellItem icon={<ArticleIcon/>} label="History" title="Historia de existencias"
             onClick={() => {
-              navigate(`registro/${row.id}`)
+              navigate(`/registro/${row.id}`)
             }} />,
           <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={() => {
             setOpenModalEdit(true)
