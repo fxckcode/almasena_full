@@ -21,6 +21,7 @@ function createUserByNameAndEmailAndPassword(user) {
     })
 }
 
+
 function getUsers() {
     return prisma.users.findMany();
 }
