@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import axiosClient from '../axios-client'
 import toast from 'react-hot-toast'
+import handleKeyDown from '../utils/handelKeyDown'
 
 function CreateModal({ open, onClose }) {
     const [ categories, setCategories ] = useState([])
@@ -97,7 +98,7 @@ function CreateModal({ open, onClose }) {
                             </div>
                             <div className='flex flex-col gap-3 w-1/2'>
                                 <label htmlFor="stock">Existencias</label>
-                                <input name='stock' min={0} type="number" placeholder='Existencias disponibles' ref={stock} className='p-2 border border-gray-400 rounded-lg' required />
+                                <input name='stock' min={0} type="number" placeholder='Existencias disponibles' ref={stock} className='p-2 border border-gray-400 rounded-lg' required onKeyDown={handleKeyDown} />
                             </div>
                         </div>
                         <div className='flex flex-col gap-3 w-full'>

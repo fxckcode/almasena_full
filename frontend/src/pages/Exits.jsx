@@ -3,6 +3,7 @@ import axiosClient from '../axios-client';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import ExitsModal from '../components/ExitsModal';
 import toast from 'react-hot-toast';
+import handleKeyDown from '../utils/handelKeyDown';
 
 function Exits() {
   const [elements, setElements] = useState([])
@@ -85,7 +86,7 @@ function Exits() {
             </div>
             <div className='flex flex-col gap-2 p-3'>
               <label htmlFor="sheet">Ficha</label>
-              <input id="sheet" name='sheet' type="number" min={0} placeholder='ID Ficha' className="w-full rounded-lg border border-stroke bg-transparent p-3 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" required ref={sheet} />
+              <input id="sheet" name='sheet' type="number" min={0} placeholder='ID Ficha' className="w-full rounded-lg border border-stroke bg-transparent p-3 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" required ref={sheet} onKeyDown={handleKeyDown} />
             </div>
             <div className='flex flex-col gap-2 p-3'>
               <label htmlFor="description">Descripción</label>

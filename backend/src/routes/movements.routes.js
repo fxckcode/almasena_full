@@ -61,9 +61,8 @@ router.post("/movements/exits", async (req, res, next) => {
             const quantity = parseInt(quantities[element.id]);
 
             if (quantity === 0) {
-              // Puedes manejar este caso según tus necesidades, por ejemplo, lanzar un error, omitir la actualización, etc.
               console.error(`La cantidad para el elemento ${element.id} es cero.`);
-              return null; // Otra opción podría ser devolver null o cualquier otro valor que indique que la operación no debe continuar
+              return null;
             }
             const exit = await prisma.details_movements.create({
                 data: {

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import axiosClient from '../axios-client'
 import UserContext from '../context/UserContext'
 import toast from 'react-hot-toast'
+import handleKeyDown from '../utils/handelKeyDown'
 
 function AddStock({ onSubmitSuccess, openModalDesactive }) {
     const { user } = useContext(UserContext)
@@ -47,6 +48,8 @@ function AddStock({ onSubmitSuccess, openModalDesactive }) {
         })
     }
 
+    
+
     return (
         <div className='w-full p-4 shadow-sm border border-gray-200 rounded'>
             <h2 className='text-primary py-3 font-semibold text-xl'>Agregar existencias nuevas</h2>
@@ -77,7 +80,7 @@ function AddStock({ onSubmitSuccess, openModalDesactive }) {
                     </div>
                     <div className='flex flex-col gap-3 w-1/3'>
                         <label htmlFor="stock">Cantidad</label>
-                        <input name='stock' type="number" className='w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' placeholder='Cantidad' min={0} ref={cant} required/>
+                        <input name='stock' type="number" className='w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' placeholder='Cantidad' min={0} ref={cant} required onKeyDown={handleKeyDown}/>
                     </div>
                 </div>
                 <div className='flex flex-col gap-3 w-full'>

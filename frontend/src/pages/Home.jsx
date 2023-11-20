@@ -67,10 +67,11 @@ function Home() {
             setOpenModalEdit(true)
             setRow(row)
           }} />,
+          row.stock > 0 ?
           <GridActionsCellItem icon={(row.state == 'active') ? <CloseIcon /> : <CheckIcon />} label="Desactive" title={`${row.state == 'active' ? 'Desactivar' : 'Activar'}`} onClick={() => {
             setOpenModalDesactive(true)
             setRow(row)
-          }} />,
+          }} /> : <p></p>,
           
         ],
       } : ''

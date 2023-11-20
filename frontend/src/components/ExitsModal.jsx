@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import axiosClient from '../axios-client'
 import toast from 'react-hot-toast'
+import handleKeyDown from '../utils/handelKeyDown'
 
 function ExitsModal({ open, onClose, data, selectedElements, formRef }) {
   const [elements, setElements] = useState([])
@@ -48,6 +49,13 @@ function ExitsModal({ open, onClose, data, selectedElements, formRef }) {
         ...data
       }
 
+      elements.map((e) => {
+        if (parseInt(e.stock) - parseInt(quantities[e.id]) < 0) {
+          toast.error("La cantidad sobrepasa el stock actual")
+          throw error;
+        }
+      })
+
       await axiosClient.post("/v1/movements/exits", dataSubmit).then((response) => {
         if (response == null) {
           toast.error("Error al generar la salida, puedes que tengas campos vacios o en 0")
@@ -57,6 +65,7 @@ function ExitsModal({ open, onClose, data, selectedElements, formRef }) {
           formRef.current.reset();
         }
       })
+
     } catch (error) {
       console.error('Error al guardar los datos:', error);
     }
@@ -97,6 +106,7 @@ function ExitsModal({ open, onClose, data, selectedElements, formRef }) {
                       onChange={(e) => handleQuantityChange(element.id, e.target.value)}
                       min={0}
                       max={parseInt(element.stock)} className='rounded-lg border border-stroke bg-transparent p-3 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
+                      onKeyDown={handleKeyDown}
                     />
                   </td>
                 </tr>
