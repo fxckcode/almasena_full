@@ -21,6 +21,9 @@ export function findElementById(id) {
     return prisma.elements.findUnique({
         where: {
             id: parseInt(id)
+        }, include: {
+            categories: true,
+            sizes: true
         }
     })
 }

@@ -117,7 +117,7 @@ function Home() {
             }}
           />
         </Box>
-        { user.rol == 'admin' ? (<AddStock  onSubmitSuccess={() => setUpdate(!update)} />) : ''}
+        { user.rol == 'admin' ? (<AddStock openModalDesactive={openModalDesactive}  onSubmitSuccess={() => setUpdate(!update)} />) : ''}
         
       </div>
     </>

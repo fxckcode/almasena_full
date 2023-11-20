@@ -1,15 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import axiosClient from '../axios-client';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import ElementsContext from '../context/ElementsContext';
+import ExitsModal from '../components/ExitsModal';
+import toast from 'react-hot-toast';
+
 function Exits() {
   const [elements, setElements] = useState([])
   const [users, setUsers] = useState([])
-  const { selectedElements, setSelectedElements } = useContext(ElementsContext)
+  const [selectedElements, setSelectedElements] = useState([])
+  const [openModalExit, setOpenModalExit] = useState(false)
+  const [data, setData] = useState([])
   useEffect(() => {
     const getElements = async () => {
       await axiosClient.get("/v1/elements").then((response) => {
-        setElements(response.data);
+        const activeElement = response.data.filter((e) => e.state == "active")
+        setElements(activeElement);
       }).catch((error) => console.log(error))
     }
 
@@ -18,11 +23,32 @@ function Exits() {
         setUsers(response.data)
       }).catch((error) => console.log(error))
     }
-
-
     getElements()
     getUsers()
-  }, [selectedElements])
+  }, [selectedElements, openModalExit])
+
+  const selectedUser = useRef(null)
+  const sheet = useRef(null)
+  const description = useRef(null)
+  const formRef = useRef(null)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    if (selectedElements.length > 0) {
+      const data = {
+        selectedUser: selectedUser.current.value,
+        sheet: sheet.current.value,
+        description: description.current.value
+      }
+
+      setData(data)
+      setOpenModalExit(true)
+
+    } else {
+      toast.error("Tienes que selecionar al menos un elemento")
+    }
+  }
 
   const columns = [
     { field: 'name', headerName: "NOMBRE", flex: 1 },
@@ -45,27 +71,31 @@ function Exits() {
       <h1 className='font-semibold text-2xl text-primary mb-3'>Salidas de elementos</h1>
       <div className='w-full flex flex-col lg:flex-row gap-3'>
         <div className='shadow-lg border-gray-300 border rounded-lg w-full lg:w-1/3'>
-          <form action="">
+          <form method='post' onSubmit={handleSubmit} ref={formRef}>
             <div className='flex flex-col gap-2 p-3'>
-              <label htmlFor="">Instructor</label>
-              <select name="" id="" className="w-full rounded-lg border border-stroke bg-transparent p-3 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" required>
+              <label htmlFor="user">Instructor</label>
+              <select name="user" id="user" className="w-full rounded-lg border border-stroke bg-transparent p-3 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" required ref={selectedUser}>
                 <option value="">Seleccionar...</option>
                 {
-                  users.filter((u) => u.rol != "admin").map((u) => (
-                    <option value={u.id} key={u.id}>{u.name}</option>
+                  users.filter((u) => u.rol != "admin").map((u, index) => (
+                    <option value={u.id} key={index}>{u.name}</option>
                   ))
                 }
               </select>
             </div>
             <div className='flex flex-col gap-2 p-3'>
-              <label htmlFor="">Ficha</label>
-              <input type="number" min={0} placeholder='ID Ficha' className="w-full rounded-lg border border-stroke bg-transparent p-3 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" required />
+              <label htmlFor="sheet">Ficha</label>
+              <input id="sheet" name='sheet' type="number" min={0} placeholder='ID Ficha' className="w-full rounded-lg border border-stroke bg-transparent p-3 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" required ref={sheet} />
             </div>
             <div className='flex flex-col gap-2 p-3'>
-              <label htmlFor="">Descripción</label>
-              <textarea name="" id="" cols="30" rows="3" placeholder='Descripción de la salida' className="w-full rounded-lg border border-stroke bg-transparent p-3 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" required></textarea>
+              <label htmlFor="description">Descripción</label>
+              <textarea name="description" id="description" cols="30" rows="3" placeholder='Descripción de la salida' className="w-full rounded-lg border border-stroke bg-transparent p-3 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" required ref={description}></textarea>
+            </div>
+            <div className='flex flex-col gap-2 p-3'>
+              <button type='submit' className='w-full p-2 rounded-lg hover:scale-105 transition-all bg-primary text-white'>Crear salida</button>
             </div>
           </form>
+
         </div>
         <div className='shadow-lg border-gray-300 border rounded-lg w-full'>
           <DataGrid
@@ -95,36 +125,7 @@ function Exits() {
           />
         </div>
       </div>
-      <div className='shadow-lg border-gray-300 border rounded-lg w-full p-4 flex flex-col justify-center gap-3 items-center '>
-        <h1 className='text-2xl font-semibold text-primary'>Resumen</h1>
-        <table class="min-w-full text-left text-sm font-light">
-          <thead class="border-b font-medium dark:border-neutral-500">
-            <tr>
-              <th scope="col" class="px-6 py-4">Elemento</th>
-              <th scope="col" class="px-6 py-4">Categoría</th>
-              <th scope="col" class="px-6 py-4">Marca</th>
-              <th scope="col" class="px-6 py-4">Talla</th>
-              <th scope="col" class="px-6 py-4">Cantidad</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              selectedElements && elements.filter((e) => selectedElements.includes(e.id)).map((e) => (
-                <tr class="border-b dark:border-neutral-500">
-                  <td class="whitespace-nowrap px-6 py-1 font-semibold">{e.name}</td>
-                  <td class="whitespace-nowrap px-6 py-1">{e.categories.name}</td>
-                  <td class="whitespace-nowrap px-6 py-1">{e.brand}</td>
-                  <td class="whitespace-nowrap px-6 py-1">{e.sizes.name}</td>
-                  <td class="whitespace-nowrap px-6 py-1">
-                    <input type="number" min={0} defaultValue={0} max={parseInt(e.stock)} className='rounded-lg border border-stroke bg-transparent p-3 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' />
-                  </td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-        <button className='p-2 bg-primary text-white rounded w-1/4 hover:scale-105 transition-all'>Crear salida</button>
-      </div>
+      <ExitsModal open={openModalExit} onClose={() => setOpenModalExit(false)} data={data} selectedElements={selectedElements} formRef={formRef} />
     </div>
   )
 }

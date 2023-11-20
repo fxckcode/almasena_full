@@ -3,7 +3,7 @@ import axiosClient from '../axios-client'
 import UserContext from '../context/UserContext'
 import toast from 'react-hot-toast'
 
-function AddStock({ onSubmitSuccess }) {
+function AddStock({ onSubmitSuccess, openModalDesactive }) {
     const { user } = useContext(UserContext)
     const [elements, setElements] = useState([])
     const [categories, setCategories] = useState([])
@@ -20,7 +20,7 @@ function AddStock({ onSubmitSuccess }) {
             })
         }
         getElements()
-    }, [])
+    }, [openModalDesactive])
 
     const element = useRef(null)
     const cant = useRef(null)
@@ -69,7 +69,7 @@ function AddStock({ onSubmitSuccess }) {
                         disabled={ selectCategories == null ? true : false } ref={element} required>
                             <option value="">Seleccionar elemento...</option>
                             {
-                                 elements.filter((e) => e.categories.id == selectCategories).filter((e) => e.state == 'active').map((e, index) => (
+                                 elements.filter((e) => e.categories.id == selectCategories).map((e, index) => (
                                     <option value={e.id} key={e.id}>{e.name} - {e.sizes.name} - {e.brand}</option>
                                 ))
                             }

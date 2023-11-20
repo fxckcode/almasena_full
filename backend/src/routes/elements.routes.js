@@ -38,7 +38,6 @@ router.get("/elements/:id", isAdmin, async (req, res, next) => {
     }
 })
 
-
 router.put("/elements/:id", isAdmin, async (req, res, next) => {
     try {
         const { id } = req.params;
