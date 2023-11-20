@@ -11,7 +11,7 @@ import LogEntry from "./pages/LogEntry"
 import Exits from "./pages/Exits"
 import Redirect from "./pages/Redirect"
 import AdminRoute from "./utils/AdminRoute"
-
+import Profile from "./pages/Profile"
 
 function App() {
 
@@ -31,6 +31,7 @@ function App() {
                 <Route path="/exits" Component={Exits} />
               </Route>
               <Route path="/" Component={Redirect} />
+              <Route path="/profile" Component={Profile} />
             </Route>
           </Route>
         </Routes>

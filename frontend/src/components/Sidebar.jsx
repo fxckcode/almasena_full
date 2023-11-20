@@ -131,7 +131,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               <li>
                 <NavLink
                   to="/chart"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black duration-300 ease-in-out hover:bg-primary hover:text-white ${pathname.includes('perfil') && 'bg-primary text-white'
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black duration-300 ease-in-out hover:bg-primary hover:text-white ${pathname.includes('profile') && 'bg-primary text-white'
                     }`}
                 >
 
