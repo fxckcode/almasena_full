@@ -10,6 +10,7 @@ import { UserProvider } from "./context/UserContext"
 import LogEntry from "./pages/LogEntry"
 import Exits from "./pages/Exits"
 import Redirect from "./pages/Redirect"
+import AdminRoute from "./utils/AdminRoute"
 
 
 function App() {
@@ -25,8 +26,10 @@ function App() {
           <Route element={<DefaultLayout />}>
             <Route element={<ProtectedRoute />}>
               <Route path="/home" Component={Home} />
-              <Route path="/registro/:id" Component={LogEntry} />
-              <Route path="/exits" Component={Exits} />
+              <Route element={<AdminRoute />} >
+                <Route path="/registro/:id" Component={LogEntry} />
+                <Route path="/exits" Component={Exits} />
+              </Route>
               <Route path="/" Component={Redirect} />
             </Route>
           </Route>

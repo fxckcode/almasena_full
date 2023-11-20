@@ -7,7 +7,7 @@ import UserContext from '../context/UserContext';
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
   const { pathname } = location;
-  const { user } = useContext(UserContext) 
+  const { user } = useContext(UserContext)
 
   const trigger = useRef(null);
   const sidebar = useRef(null);
@@ -97,15 +97,24 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             <ul className="mb-6 flex flex-col gap-1.5">
               {/* <!-- Menu Item .map() --> */}
               {
-                navLinks.map((nav, index) => (
-                  <li key={index}>
-                    <NavLink to={nav.path} className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black       duration-300 ease-in-out hover:bg-primary hover:text-white ${pathname.includes(nav.route) &&
-                      'bg-primary text-white'
-                      }`} >
-                      {nav.name}
-                    </NavLink>
-                  </li>
-                ))
+                user.rol == "admin" ?
+                  navLinks.map((nav, index) => (
+                    <li key={index}>
+                      <NavLink to={nav.path} className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black       duration-300 ease-in-out hover:bg-primary hover:text-white ${pathname.includes(nav.route) &&
+                        'bg-primary text-white'
+                        }`} >
+                        {nav.name}
+                      </NavLink>
+                    </li>
+                  )) : navLinks.filter((n) => n.route == "/home").map((nav, index) => (
+                    <li key={index}>
+                      <NavLink to={nav.path} className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black       duration-300 ease-in-out hover:bg-primary hover:text-white ${pathname.includes(nav.route) &&
+                        'bg-primary text-white'
+                        }`} >
+                        {nav.name}
+                      </NavLink>
+                    </li>
+                  ))
               }
 
             </ul>
@@ -118,18 +127,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             </h3>
 
             <ul className="mb-6 flex flex-col gap-1.5">
-              
+
               <li>
                 <NavLink
                   to="/chart"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black duration-300 ease-in-out hover:bg-primary hover:text-white ${pathname.includes('perfil') && 'bg-primary text-white'
                     }`}
                 >
-              
+
                   Perfil
                 </NavLink>
               </li>
-        
+
             </ul>
           </div>
         </nav>
