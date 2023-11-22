@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import UserContext from '../context/UserContext'
 import axiosClient from '../axios-client'
+import toast from 'react-hot-toast'
 
 function Profile() {
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
   const id = useRef(null)
   const name = useRef(null)
   const email = useRef(null)
@@ -15,11 +16,14 @@ function Profile() {
       id: parseInt(id.current.value),
       name: name.current.value,
       email: email.current.value,
-      phone: email.current.value
+      phone: phone.current.value
     }
 
     axiosClient.put(`/v1/users/${user.id}]`, data).then((response) => {
-      console.log(response.data);
+      if (response.status == 200) {
+        toast.success("Datos actulizados con exito!!!")
+        setUser(response.data)
+      }
     })
   }
 
@@ -32,19 +36,19 @@ function Profile() {
       <form className="w-[70%] flex flex-col gap-3" onSubmit={handleSubmit} method='post'>
         <div className='flex flex-col gap-2'>
           <label htmlFor="">Número de documento</label>
-          <input type="number" min={0} className='w-full rounded-lg border border-stroke bg-transparent p-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'defaultValue={user.id} required ref={id} />
+          <input type="number" min={0} className='w-full rounded-lg border border-stroke bg-transparent p-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'defaultValue={user.id} required ref={id} placeholder='Número de documento' />
         </div>
         <div className='flex flex-col gap-2'>
           <label htmlFor="">Nombre Completo</label>
-          <input type="text" className='w-full rounded-lg border border-stroke bg-transparent p-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' defaultValue={user.name} required ref={name} />
+          <input type="text" className='w-full rounded-lg border border-stroke bg-transparent p-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' defaultValue={user.name} required ref={name} placeholder='Nombre Completo' />
         </div>
         <div className='flex flex-col gap-2'>
           <label htmlFor="">Correo</label>
-          <input type="email" className='w-full rounded-lg border border-stroke bg-transparent p-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' defaultValue={user.email} required ref={email} />
+          <input type="email" className='w-full rounded-lg border border-stroke bg-transparent p-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' defaultValue={user.email} required ref={email} placeholder='Correo SENA' />
         </div>
         <div className='flex flex-col gap-2'>
           <label htmlFor="">Teléfono</label>
-          <input type="number" className='w-full rounded-lg border border-stroke bg-transparent p-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' defaultValue={user.phone} ref={phone} />
+          <input type="number" className='w-full rounded-lg border border-stroke bg-transparent p-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' defaultValue={user.phone} ref={phone} placeholder='Número de telefono' />
         </div>
         <button className='p-2 text-white bg-primary rounded-lg mx-5 my-5 hover:scale-105 transition-all'>Actualizar datos</button>
       </form>

@@ -54,6 +54,11 @@ function ExitsModal({ open, onClose, data, selectedElements, formRef }) {
           toast.error("La cantidad sobrepasa el stock actual")
           throw error;
         }
+
+        if (parseInt(quantities[e.id]) == 0) {
+          toast.error("La cantidad no puede ser 0")
+          throw error;
+        }
       })
 
       await axiosClient.post("/v1/movements/exits", dataSubmit).then((response) => {

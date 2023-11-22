@@ -79,7 +79,7 @@ function Exits() {
                 <option value="">Seleccionar...</option>
                 {
                   users.filter((u) => u.rol != "admin").map((u, index) => (
-                    <option value={u.id} key={index}>{u.name}</option>
+                    <option value={u.id} key={index}>{u.name} - {u.id}</option>
                   ))
                 }
               </select>
