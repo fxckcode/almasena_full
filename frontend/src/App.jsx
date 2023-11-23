@@ -12,6 +12,7 @@ import Exits from "./pages/Exits"
 import Redirect from "./pages/Redirect"
 import AdminRoute from "./utils/AdminRoute"
 import Profile from "./pages/Profile"
+import Users from "./pages/Users"
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
               <Route element={<AdminRoute />} >
                 <Route path="/registro/:id" Component={LogEntry} />
                 <Route path="/exits" Component={Exits} />
+                <Route path="/users" Component={Users} />
               </Route>
               <Route path="/" Component={Redirect} />
               <Route path="/profile" Component={Profile} />

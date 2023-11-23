@@ -8,6 +8,11 @@ const navLinks = [
         "path" : "/exits",
         "route": "exits",
         "name": "Salidas"
+    },
+    {
+        "path": "/users",
+        "route": "/users",
+        "name": "Usuarios"
     }
 
 ]

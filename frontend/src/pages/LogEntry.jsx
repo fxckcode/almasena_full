@@ -23,6 +23,16 @@ function LogEntry() {
 
   const columns = [
     {
+      field: "users", headerName: 'RESPONSABLE', flex: 1, valueGetter: ({ row }) => {
+        return `${row.movements.users.name}`
+      }
+    },
+    {
+      field: "sheet", headerName: 'FICHA', flex: 1, valueGetter: ({ row }) => {
+        return `${row.movements.sheet == null ? '' : row.movements.sheet}`
+      }
+    },
+    {
       field: 'date', headerName: 'FECHA', flex: 1, valueGetter: ({ row }) => {
         return `${row.movements.date.substring(0, 10)}`
       }
