@@ -11,25 +11,28 @@ function CreateUserModal({ open, onClose }) {
     const email = useRef(null)
     const phone = useRef(null)
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-
-        const data = {
-            id: parseInt(id.current.value),
-            name: name.current.value,
-            email: email.current.value,
-            phone: phone.current.value ? phone.current.value : null,
-            password: id.current.value
-        }
-
-        axiosClient.post("/v1/users", data).then((response) => {
-            if (response.status == 200) {
-                toast.success("Usuario creado con exito")
-                onClose(false)
-            } else {
-                toast.error("Ha ocurrido un error al crear el usuario")
+        try {
+            const data = {
+                id: parseInt(id.current.value),
+                name: name.current.value,
+                email: email.current.value,
+                phone: phone.current.value ? phone.current.value : null,
+                password: id.current.value
             }
-        })
+    
+            await axiosClient.post("/v1/users", data).then((response) => {
+                if (response.status == 200) {
+                    toast.success("Usuario creado con exito")
+                    onClose(false)
+                } else {
+                    toast.error("Ha ocurrido un error al crear el usuario")
+                }
+            })
+        } catch (error) {
+            console.error(error);
+        }
     }
     return (
         <Modal open={open}

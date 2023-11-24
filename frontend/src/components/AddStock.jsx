@@ -8,17 +8,22 @@ function AddStock({ onSubmitSuccess, openModalDesactive }) {
     const { user } = useContext(UserContext)
     const [elements, setElements] = useState([])
     const [categories, setCategories] = useState([])
-    const [ selectCategories, setSelectCategories ] = useState(null)
+    const [selectCategories, setSelectCategories] = useState(null)
     const formRef = useRef(null)
     useEffect(() => {
-        const getElements = () => {
-            axiosClient.get("/v1/elements").then((response) => {
-                setElements(response.data)
-            })
+        const getElements = async () => {
+            try {
+                await axiosClient.get("/v1/elements").then((response) => {
+                    setElements(response.data)
+                })
 
-            axiosClient.get("/v1/categories").then((response) => {
-                setCategories(response.data)
-            })
+                await axiosClient.get("/v1/categories").then((response) => {
+                    setCategories(response.data)
+                })
+
+            } catch (error) {
+                console.error(error);
+            }
         }
         getElements()
     }, [openModalDesactive])
@@ -31,24 +36,28 @@ function AddStock({ onSubmitSuccess, openModalDesactive }) {
         formRef.current.reset();
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        const data = {
-            element: element.current.value,
-            cant: cant.current.value,
-            description: description.current.value,
-            id_user: user.id,
-            type: "entry"
+        try {
+            const data = {
+                element: element.current.value,
+                cant: cant.current.value,
+                description: description.current.value,
+                id_user: user.id,
+                type: "entry"
+            }
+            await axiosClient.post("/v1/movements", data).then((response) => {
+                console.log(response);
+                toast.success("Existencias agregadas con exito")
+                resetForm()
+                onSubmitSuccess(true)
+            })
+        } catch (error) {
+            console.error(error);
         }
-        axiosClient.post("/v1/movements", data).then((response) => {
-            console.log(response);
-            toast.success("Existencias agregadas con exito")
-            resetForm()
-            onSubmitSuccess(true)
-        })
     }
 
-    
+
 
     return (
         <div className='w-full p-4 shadow-sm border border-gray-200 rounded'>
@@ -68,11 +77,11 @@ function AddStock({ onSubmitSuccess, openModalDesactive }) {
                     </div>
                     <div className='flex flex-col gap-3 w-1/2'>
                         <label htmlFor="element">Elemento</label>
-                        <select name="element" id="element" className='w-full rounded-lg border border-stroke bg-transparent py-4 px-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' 
-                        disabled={ selectCategories == null ? true : false } ref={element} required>
+                        <select name="element" id="element" className='w-full rounded-lg border border-stroke bg-transparent py-4 px-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
+                            disabled={selectCategories == null ? true : false} ref={element} required>
                             <option value="">Seleccionar elemento...</option>
                             {
-                                 elements.filter((e) => e.categories.id == selectCategories).map((e, index) => (
+                                elements.filter((e) => e.categories.id == selectCategories).map((e, index) => (
                                     <option value={e.id} key={e.id}>{e.name} - {e.sizes.name} - {e.brand}</option>
                                 ))
                             }
@@ -80,7 +89,7 @@ function AddStock({ onSubmitSuccess, openModalDesactive }) {
                     </div>
                     <div className='flex flex-col gap-3 w-1/3'>
                         <label htmlFor="stock">Cantidad</label>
-                        <input name='stock' type="number" className='w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' placeholder='Cantidad' min={0} ref={cant} required onKeyDown={handleKeyDown}/>
+                        <input name='stock' type="number" className='w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' placeholder='Cantidad' min={0} ref={cant} required onKeyDown={handleKeyDown} />
                     </div>
                 </div>
                 <div className='flex flex-col gap-3 w-full'>

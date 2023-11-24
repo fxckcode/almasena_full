@@ -9,9 +9,17 @@ function Users() {
     const [openModalCreateUser, setOpenModalCreateUser] = useState(false)
 
     useEffect(() => {
-        axiosClient.get("/v1/users").then((response) => {
-            setUsers(response.data);
-        })
+        const getUser = async () => {
+            try {
+                await axiosClient.get("/v1/users").then((response) => {
+                    setUsers(response.data);
+                })
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        getUser()
     }, [openModalCreateUser])
 
     const columns = [

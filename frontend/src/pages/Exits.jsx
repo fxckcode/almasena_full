@@ -13,16 +13,24 @@ function Exits() {
   const [data, setData] = useState([])
   useEffect(() => {
     const getElements = async () => {
-      await axiosClient.get("/v1/elements").then((response) => {
-        const activeElement = response.data.filter((e) => e.state == "active")
-        setElements(activeElement);
-      }).catch((error) => console.log(error))
+      try {
+        await axiosClient.get("/v1/elements").then((response) => {
+          const activeElement = response.data.filter((e) => e.state == "active")
+          setElements(activeElement);
+        }).catch((error) => console.log(error))
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     const getUsers = async () => {
-      await axiosClient.get("/v1/users").then((response) => {
-        setUsers(response.data)
-      }).catch((error) => console.log(error))
+      try {
+        await axiosClient.get("/v1/users").then((response) => {
+          setUsers(response.data)
+        }).catch((error) => console.log(error))
+      } catch (error) {
+        console.error(error);
+      }
     }
     getElements()
     getUsers()

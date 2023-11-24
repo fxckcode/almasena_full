@@ -6,8 +6,8 @@ import toast from 'react-hot-toast'
 import handleKeyDown from '../utils/handelKeyDown'
 
 function CreateModal({ open, onClose }) {
-    const [ categories, setCategories ] = useState([])
-    const [ sizes, setSizes ] = useState([])
+    const [categories, setCategories] = useState([])
+    const [sizes, setSizes] = useState([])
     const name = useRef(null)
     const categorie = useRef(null)
     const size = useRef(null)
@@ -17,32 +17,45 @@ function CreateModal({ open, onClose }) {
     const description = useRef(null)
 
     useEffect(() => {
-        axiosClient.get("/v1/categories").then((response) => {
-            setCategories(response.data);
-        })
-        axiosClient.get("/v1/sizes").then((response) => {
-            setSizes(response.data)
-        })
-    }, [])
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        const data = {
-            name: name.current.value,
-            brand: brand.current.value,
-            color: color.current.value,
-            stock: parseInt(stock.current.value),
-            description: description.current.value,
-            id_categorie: parseInt(categorie.current.value),
-            id_size: parseInt(size.current.value)
+        const getData = async () => {
+            try {
+                await axiosClient.get("/v1/categories").then((response) => {
+                    setCategories(response.data);
+                })
+                await axiosClient.get("/v1/sizes").then((response) => {
+                    setSizes(response.data)
+                })
+            } catch (error) {
+                console.error(error);
+            }
         }
 
-        axiosClient.post("/v1/elements", data).then((response) => {
-            if (response.status == 200) {
-                toast.success("Elemento creado con exito")
-                onClose(false)
+        getData()
+
+    }, [])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            const data = {
+                name: name.current.value,
+                brand: brand.current.value,
+                color: color.current.value,
+                stock: parseInt(stock.current.value),
+                description: description.current.value,
+                id_categorie: parseInt(categorie.current.value),
+                id_size: parseInt(size.current.value)
             }
-        })
+    
+            await axiosClient.post("/v1/elements", data).then((response) => {
+                if (response.status == 200) {
+                    toast.success("Elemento creado con exito")
+                    onClose(false)
+                }
+            })
+        } catch (error) {
+            console.error(error);
+        }
     }
     return (
         <Modal open={open}
@@ -60,7 +73,7 @@ function CreateModal({ open, onClose }) {
                         <div className='flex flex-row gap-3 w-full'>
                             <div className='flex flex-col gap-3 w-1/2'>
                                 <label htmlFor="name">Nombre del Elemento</label>
-                                <input type="text" name='name' placeholder='Nombre del elemento' ref={name} className='p-2 border border-gray-400 rounded-lg' required/>
+                                <input type="text" name='name' placeholder='Nombre del elemento' ref={name} className='p-2 border border-gray-400 rounded-lg' required />
                             </div>
                             <div className='flex flex-col gap-3 w-1/2'>
                                 <label htmlFor="categories">Categoria</label>

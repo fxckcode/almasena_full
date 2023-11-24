@@ -6,12 +6,18 @@ import toast from 'react-hot-toast'
 
 function DesactiveModal({ open, onClose, row }) {
     const { id } = row; 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        axiosClient.delete(`/v1/elements/${id}`).then((response) => {
-            onClose(false)
-            toast.success(`Elemento ${row.state == 'active' ? "desactivado" : "activado" } con exito`);
-        })
+        try {
+            await axiosClient.delete(`/v1/elements/${id}`).then((response) => {
+                if (response.status == 201) {
+                    onClose(false)
+                    toast.success(`Elemento ${row.state == 'active' ? "desactivado" : "activado" } con exito`);
+                }
+            })
+        } catch (error) {
+            console.error(error);
+        }
     }
     return (
         <Modal open={open}

@@ -9,10 +9,14 @@ function LogEntry() {
   const [log, setLog] = useState([])
   useEffect(() => {
     const getElements = async () => {
-      axiosClient.get(`/v1/details/byproduct/${parseInt(id)}`).then((response) => {
-        setLog(response.data)
-        console.log(response.data);
-      })
+      try {
+        await axiosClient.get(`/v1/details/byproduct/${parseInt(id)}`).then((response) => {
+          setLog(response.data)
+          console.log(response.data);
+        })
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     if (id) {

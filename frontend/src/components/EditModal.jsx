@@ -18,12 +18,21 @@ function EditModal({ open, onClose, row }) {
     const description = useRef(null)
 
     useEffect(() => {
-        axiosClient.get("/v1/categories").then((response) => {
-            setCategories(response.data);
-        })
-        axiosClient.get("/v1/sizes").then((response) => {
-            setSizes(response.data)
-        })
+        const getData = async () => {
+            try {
+                await axiosClient.get("/v1/categories").then((response) => {
+                    setCategories(response.data);
+                })
+                await axiosClient.get("/v1/sizes").then((response) => {
+                    setSizes(response.data)
+                })
+            } catch (error) {
+                console.error(error);
+            }
+
+        }
+
+        getData()
     }, [])
 
     const handleSubmit = (e) => {

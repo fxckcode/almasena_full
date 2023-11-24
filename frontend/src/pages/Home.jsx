@@ -28,9 +28,13 @@ function Home() {
   useEffect(() => {
 
     const getElements = async () => {
-      await axiosClient.get("/v1/elements").then((response) => {
-        setElements(response.data);
-      })
+      try {
+        await axiosClient.get("/v1/elements").then((response) => {
+          setElements(response.data);
+        })
+      } catch (error) {
+        console.error(error);
+      }
     }
     getElements()
     document.title = "AlmaSENA | Inicio"

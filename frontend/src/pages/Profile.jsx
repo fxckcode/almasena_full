@@ -11,21 +11,25 @@ function Profile() {
   const email = useRef(null)
   const phone = useRef(null)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async  (e) => {
     e.preventDefault()
-    const data = {
-      id: parseInt(id.current.value),
-      name: name.current.value,
-      email: email.current.value,
-      phone: phone.current.value
-    }
-
-    axiosClient.put(`/v1/users/${user.id}]`, data).then((response) => {
-      if (response.status == 200) {
-        toast.success("Datos actulizados con exito!!!")
-        setUser(response.data)
+    try {
+      const data = {
+        id: parseInt(id.current.value),
+        name: name.current.value,
+        email: email.current.value,
+        phone: phone.current.value
       }
-    })
+  
+      await axiosClient.put(`/v1/users/${user.id}]`, data).then((response) => {
+        if (response.status == 200) {
+          toast.success("Datos actulizados con exito!!!")
+          setUser(response.data)
+        }
+      })
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   useEffect(() => {
