@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axiosClient from '../axios-client'
 import Box from '@mui/material/Box';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridToolbar } from '@mui/x-data-grid';
 import CreateUserModal from '../components/CreateUserModal';
+import ArticleIcon from '@mui/icons-material/Article';
+import EditIcon from '@mui/icons-material/Edit';
 
 function Users() {
     const [users, setUsers] = useState([])
@@ -34,7 +36,30 @@ function Users() {
         },
         {
             field: 'phone', headerName: 'TELEFONO', flex: 1
-        }
+        },
+        {
+            field: 'actions',
+            type: 'actions',
+            flex: 1,
+            getActions: ({ row }) => [
+                <GridActionsCellItem 
+                    icon={<ArticleIcon />} 
+                    label="History"    
+                    title="Historia de existencias"
+                    onClick={() => {
+
+                    }} 
+                />,
+                <GridActionsCellItem 
+                    icon={<EditIcon />} 
+                    label="Edit" 
+                    onClick={() => {
+
+                    }} 
+                />
+            ]
+        },
+
     ]
     return (
         <>
@@ -55,6 +80,11 @@ function Users() {
                         toolbar: {
                             showQuickFilter: true,
                         },
+                    }}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { pageSize: 25 }
+                        }
                     }}
                     getRowHeight={() => 'auto'}
                     pageSizeOptions={[5, 10, 25, 50, 100]}
