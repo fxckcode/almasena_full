@@ -66,16 +66,16 @@ function Home() {
           <GridActionsCellItem icon={<ArticleIcon/>} label="History" title="Historia de existencias"
             onClick={() => {
               navigate(`/registro/${row.id}`)
-            }} />,
+            }} key={row.id} />,
           <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={() => {
             setOpenModalEdit(true)
             setRow(row)
-          }} />,
+          }} key={row.id} />,
           row.stock > 0 ?
           <GridActionsCellItem icon={(row.state == 'active') ? <CloseIcon /> : <CheckIcon />} label="Desactive" title={`${row.state == 'active' ? 'Desactivar' : 'Activar'}`} onClick={() => {
             setOpenModalDesactive(true)
             setRow(row)
-          }} /> : <p></p>,
+          }} key={row.id} /> : <p></p>,
           
         ],
       } : ''

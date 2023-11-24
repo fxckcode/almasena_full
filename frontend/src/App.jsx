@@ -13,6 +13,7 @@ import Redirect from "./pages/Redirect"
 import AdminRoute from "./utils/AdminRoute"
 import Profile from "./pages/Profile"
 import Users from "./pages/Users"
+import LogByUser from "./pages/LogByUser"
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
                 <Route path="/registro/:id" Component={LogEntry} />
                 <Route path="/exits" Component={Exits} />
                 <Route path="/users" Component={Users} />
+                <Route path="/registro/byuser/:id" Component={LogByUser} />
               </Route>
               <Route path="/" Component={Redirect} />
               <Route path="/profile" Component={Profile} />

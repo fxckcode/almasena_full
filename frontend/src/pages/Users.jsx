@@ -5,11 +5,12 @@ import { DataGrid, GridActionsCellItem, GridToolbar } from '@mui/x-data-grid';
 import CreateUserModal from '../components/CreateUserModal';
 import ArticleIcon from '@mui/icons-material/Article';
 import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router-dom';
 
 function Users() {
     const [users, setUsers] = useState([])
     const [openModalCreateUser, setOpenModalCreateUser] = useState(false)
-
+    const navigate = useNavigate()
     useEffect(() => {
         const getUser = async () => {
             try {
@@ -47,7 +48,7 @@ function Users() {
                     label="History"    
                     title="Historia de existencias"
                     onClick={() => {
-
+                        navigate(`/registro/byuser/${parseInt(row.id)}`)
                     }} 
                 />,
                 <GridActionsCellItem 

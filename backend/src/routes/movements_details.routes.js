@@ -53,10 +53,38 @@ router.get("/details/byproduct/:id_element", async (req, res, next) => {
                 }
             }
         })
-     
+
         res.json(detail)
     } catch (error) {
         next(error)
+    }
+})
+
+router.get("/details/byuser/:id_user", async (req, res, next) => {
+    try {
+        const { id_user } = req.params;
+        const detail = await prisma.details_movements.findMany({
+            where: {
+                movements: {
+                    id_user: parseInt(id_user)
+                }
+            }, include: {
+                elements: {
+                    include: {
+                        sizes: true,
+                        categories: true,
+                    },
+                },
+                movements: {
+                    include: {
+                        users: true
+                    }
+                }
+            }
+        })
+        res.json(detail)
+    } catch (error) {
+        console.error(error);
     }
 })
 
@@ -82,4 +110,4 @@ router.delete("/details/:id", async (req, res, next) => {
     }
 })
 
-export default router
+export default router 
