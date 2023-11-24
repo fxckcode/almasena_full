@@ -13,7 +13,7 @@ function LogByUser() {
         const getLog = async () => {
             try {
                 await axiosClient.get(`/v1/details/byuser/${parseInt(id)}`).then((response) => {
-                    setLog(response)
+                    setLog(response.data)
                     console.log(response.data);
                 })
             } catch (error) {
@@ -41,11 +41,36 @@ function LogByUser() {
                 return `${row.movements.sheet == null ? '' : row.movements.sheet}`
             }
         },
+        {
+            field: 'element', headerName: "ELEMENTO", flex: 1, valueGetter: ({ row }) => {
+                return `${row.elements.name}`
+            }
+        }, {
+            field: 'categorie', headerName: "CATEGORIA", flex: 1, valueGetter: ({ row }) => {
+                return `${row.elements.categories.name}`
+            }
+        }, {
+            field: 'brand', headerName: "MARCA", flex: 1, valueGetter: ({ row }) => {
+                return `${row.elements.brand}`
+            }
+        }, {
+            field: 'size', headerName: "TALLA", flex: 1, valueGetter: ({ row }) => {
+                return `${row.elements.sizes.name}`
+            }
+        }, {
+            field: 'description', headerName: "DESCRIPCION", flex: 1, valueGetter: ({ row }) => {
+                return `${row.movements.description}`
+            }
+        }, {
+            field: 'cant', headerName: "CANTIDAD", flex: 1, valueGetter: ({ row }) => {
+                return `${row.cant}`
+            }
+        }
     ]
     return (
         <>
             <a href="/users" className='underline'>{'<'} Volver al inicio</a>
-            <h1 className='font-semibold text-xl text-primary mb-3'>Historial de movimientos del elemento</h1>
+            <h1 className='font-semibold text-xl text-primary mb-3'>Historial de movimiento por Usuario</h1>
             <Box sx={{ height: 1, width: 1 }}>
                 <DataGrid
                     disableColumnFilter
@@ -60,7 +85,6 @@ function LogByUser() {
                         },
                     }}
                     getRowHeight={() => 'auto'}
-                    getRowClassName={({ row }) => row.movements.type == 'entry' ? 'bg-green-100' : 'bg-red-100'}
                 />
             </Box>
         </>
