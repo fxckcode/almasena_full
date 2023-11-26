@@ -6,11 +6,14 @@ import CreateUserModal from '../components/CreateUserModal';
 import ArticleIcon from '@mui/icons-material/Article';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router-dom';
+import EditUserModal from '../components/EditUserModal';
 
 function Users() {
     const [users, setUsers] = useState([])
     const [openModalCreateUser, setOpenModalCreateUser] = useState(false)
+    const [openModalEditUser, setOpenModalEditUser] = useState(false)
     const navigate = useNavigate()
+    const [ row, setRow ] = useState({})
     useEffect(() => {
         const getUser = async () => {
             try {
@@ -23,7 +26,7 @@ function Users() {
         }
 
         getUser()
-    }, [openModalCreateUser])
+    }, [openModalCreateUser, openModalEditUser])
 
     const columns = [
         {
@@ -48,14 +51,15 @@ function Users() {
                     label="History"    
                     title="Historia de existencias"
                     onClick={() => {
-                        navigate(`/registro/byuser/${parseInt(row.id)}`)
+                        navigate(`/registro/byuser/${parseInt(row.id)}/${row.name}`)
                     }} 
                 />,
                 <GridActionsCellItem 
                     icon={<EditIcon />} 
                     label="Edit" 
                     onClick={() => {
-
+                        setRow(row)
+                        setOpenModalEditUser(true)
                     }} 
                 />
             ]
@@ -69,6 +73,7 @@ function Users() {
                 <button className='p-2 bg-primary rounded-lg text-white hover:scale-105 transition-all' onClick={() => setOpenModalCreateUser(true)}>+ Crear</button>
             </div>
             <CreateUserModal open={openModalCreateUser} onClose={() => setOpenModalCreateUser(false)} />
+            <EditUserModal open={openModalEditUser} onClose={() => setOpenModalEditUser(false)} row={row} />
             <Box sx={{ height: 1, width: 1 }}>
                 <DataGrid
                     disableColumnFilter

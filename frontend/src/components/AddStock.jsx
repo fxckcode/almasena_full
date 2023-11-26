@@ -47,7 +47,6 @@ function AddStock({ onSubmitSuccess, openModalDesactive }) {
                 type: "entry"
             }
             await axiosClient.post("/v1/movements", data).then((response) => {
-                console.log(response);
                 toast.success("Existencias agregadas con exito")
                 resetForm()
                 onSubmitSuccess(true)
