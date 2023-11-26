@@ -94,6 +94,7 @@ function ExitsModal({ open, onClose, data, selectedElements, formRef }) {
                 <th scope="col" className="px-6 py-4">Categoría</th>
                 <th scope="col" className="px-6 py-4">Marca</th>
                 <th scope="col" className="px-6 py-4">Talla</th>
+                <th scope="col" className='px-6 py-4'>Stock Actual</th>
                 <th scope="col" className="px-6 py-4">Cantidad</th>
               </tr>
             </thead>
@@ -104,6 +105,7 @@ function ExitsModal({ open, onClose, data, selectedElements, formRef }) {
                   <td className="whitespace-nowrap px-6 py-1">{element.categories.name}</td>
                   <td className="whitespace-nowrap px-6 py-1">{element.brand}</td>
                   <td className="whitespace-nowrap px-6 py-1">{element.sizes.name}</td>
+                  <td className='whitespace-nowrap px-6 py-1'>{element.stock}</td>
                   <td>
                     <input
                       type="number"
