@@ -48,7 +48,8 @@ router.get("/details/byproduct/:id_element", async (req, res, next) => {
                 },
                 movements: {
                     include: {
-                        users: true
+                        users: true,
+                        sheets: true
                     }
                 }
             }
@@ -77,7 +78,37 @@ router.get("/details/byuser/:id_user", async (req, res, next) => {
                 },
                 movements: {
                     include: {
-                        users: true
+                        users: true,
+                        sheets: true
+                    }
+                }
+            }
+        })
+        res.json(detail)
+    } catch (error) {
+        console.error(error);
+    }
+})
+
+router.get("/details/bysheet/:sheet_id", async (req, res, next) => {
+    try {
+        const { sheet_id } = req.params;
+        const detail = await prisma.details_movements.findMany({
+            where: {
+                movements: {
+                    sheet_id: parseInt(sheet_id)
+                }
+            }, include: {
+                elements: {
+                    include: {
+                        sizes: true,
+                        categories: true,
+                    },
+                },
+                movements: {
+                    include: {
+                        users: true,
+                        sheets: true
                     }
                 }
             }

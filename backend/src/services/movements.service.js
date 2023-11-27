@@ -14,7 +14,8 @@ export function createMovement(data) {
         data: {
             description: data.description,
             id_user: parseInt(data.id_user),
-            type: data.type
+            type: data.type,
+            sheet_id: parseInt(data.sheet)
         }
     })
 }

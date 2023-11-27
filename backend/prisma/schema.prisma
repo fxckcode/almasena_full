@@ -46,13 +46,14 @@ model elements {
 
 model movements {
   id                Int                 @id @default(autoincrement())
-  sheet             Int?
+  sheet_id             Int
   date              DateTime            @default(now()) @db.Date
   description       String?
   id_user           Int
   type              movements_type
   details_movements details_movements[]
   users             users               @relation(fields: [id_user], references: [id], onDelete: Cascade)
+  sheets sheets @relation(fields: [sheet_id], references: [id], onDelete: Cascade)
 
   @@index([id_user], map: "movements_id_user_fkey")
 }
@@ -71,6 +72,18 @@ model users {
   rol       users_rol   @default(user)
   phone     String?
   movements movements[]
+}
+
+model sheets {
+  id Int @id
+  name String
+  status sheet_state @default(active)
+  movements movements[]
+}
+
+enum sheet_state {
+  active
+  inactive
 }
 
 enum users_rol {

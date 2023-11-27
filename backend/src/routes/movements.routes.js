@@ -49,7 +49,7 @@ router.post("/movements/exits", async (req, res, next) => {
         const { elements, quantities, sheet, description, selectedUser } = req.body
         const movement = await prisma.movements.create({
             data: {
-                sheet: parseInt(sheet),
+                sheet_id: parseInt(sheet),
                 description: description,
                 id_user: parseInt(selectedUser),
                 type: "output"
