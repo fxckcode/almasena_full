@@ -1,15 +1,23 @@
-import React, { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import React, { useContext, useEffect } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import axiosClient from '../axios-client'
 import { useState } from 'react'
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import UserContext from '../context/UserContext';
 
 function LogByUser() {
     const { id, name } = useParams()
     const [log, setLog] = useState([])
     const [ idUser, setIdUser ] = useState('')
     const [ nameUser, setNameUser ] = useState('')
+    const { user } = useContext(UserContext)
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (user.rol == "user") {
+            navigate("/home")
+        }
+    }) 
 
     useEffect(() => {
         const getLog = async () => {

@@ -28,12 +28,10 @@ function App() {
           <Route element={<DefaultLayout />}>
             <Route element={<ProtectedRoute />}>
               <Route path="/home" Component={Home} />
-              <Route element={<AdminRoute />} >
-              </Route>
-                <Route path="/registro/:id" Component={LogEntry} />
-                <Route path="/exits" Component={Exits} />
-                <Route path="/users" Component={Users} />
-                <Route path="/registro/byuser/:id/:name" Component={LogByUser} />
+              <Route path="/registro/:id" Component={LogEntry} />
+              <Route path="/exits" Component={Exits} />
+              <Route path="/users" Component={Users} />
+              <Route path="/registro/byuser/:id/:name" Component={LogByUser} />
               <Route path="/" Component={Redirect} />
               <Route path="/profile" Component={Profile} />
             </Route>

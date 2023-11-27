@@ -1,12 +1,21 @@
-import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useContext, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import axiosClient from '../axios-client'
 import { useState } from 'react'
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import UserContext from '../context/UserContext';
 function LogEntry() {
   const { id } = useParams()
   const [log, setLog] = useState([])
+  const navigate = useNavigate()
+  const { user } = useContext(UserContext)
+
+  useEffect(() => {
+    if (user.rol == "user") {
+      navigate("/home")
+    }
+  })
   useEffect(() => {
     const getElements = async () => {
       try {
@@ -47,7 +56,7 @@ function LogEntry() {
       field: 'categorie', headerName: "CATEGORIA", flex: 1, valueGetter: ({ row }) => {
         return `${row.elements.categories.name}`
       }
-    },{
+    }, {
       field: 'brand', headerName: "MARCA", flex: 1, valueGetter: ({ row }) => {
         return `${row.elements.brand}`
       }
@@ -56,7 +65,7 @@ function LogEntry() {
         return `${row.elements.sizes.name}`
       }
     }, {
-      field: 'description', headerName: "DESCRIPCION", flex: 1, valueGetter: ({ row}) => {
+      field: 'description', headerName: "DESCRIPCION", flex: 1, valueGetter: ({ row }) => {
         return `${row.movements.description}`
       }
     }, {

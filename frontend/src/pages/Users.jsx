@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axiosClient from '../axios-client'
 import Box from '@mui/material/Box';
 import { DataGrid, GridActionsCellItem, GridToolbar } from '@mui/x-data-grid';
@@ -7,6 +7,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router-dom';
 import EditUserModal from '../components/EditUserModal';
+import UserContext from '../context/UserContext';
 
 function Users() {
     const [users, setUsers] = useState([])
@@ -14,6 +15,14 @@ function Users() {
     const [openModalEditUser, setOpenModalEditUser] = useState(false)
     const navigate = useNavigate()
     const [ row, setRow ] = useState({})
+    const { user } = useContext(UserContext)
+
+    useEffect(() => {
+        if (user.rol == "user") {
+            navigate("/home")
+        }
+    }) 
+
     useEffect(() => {
         const getUser = async () => {
             try {

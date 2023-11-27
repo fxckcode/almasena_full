@@ -4,6 +4,8 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import ExitsModal from '../components/ExitsModal';
 import toast from 'react-hot-toast';
 import handleKeyDown from '../utils/handelKeyDown';
+import { useNavigate } from 'react-router-dom';
+import UserContext from '../context/UserContext';
 
 function Exits() {
   const [elements, setElements] = useState([])
@@ -11,6 +13,16 @@ function Exits() {
   const [selectedElements, setSelectedElements] = useState([])
   const [openModalExit, setOpenModalExit] = useState(false)
   const [data, setData] = useState([])
+  const navigate = useNavigate()
+  const { user } = useContext(UserContext)
+
+  useEffect(() => {
+    if (user.rol == "user") {
+      navigate("/home")
+    }
+  })
+
+
   useEffect(() => {
     const getElements = async () => {
       try {
