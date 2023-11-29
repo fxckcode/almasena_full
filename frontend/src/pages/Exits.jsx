@@ -13,6 +13,7 @@ function Exits() {
   const [selectedElements, setSelectedElements] = useState([])
   const [openModalExit, setOpenModalExit] = useState(false)
   const [data, setData] = useState([])
+  const [ sheets, setSheets ] = useState([])
   const navigate = useNavigate()
   const { user } = useContext(UserContext)
 
@@ -34,7 +35,7 @@ function Exits() {
         console.error(error);
       }
     }
-
+    document.title = "AlmaSENA | Salidas"
     const getUsers = async () => {
       try {
         await axiosClient.get("/v1/users").then((response) => {
@@ -44,6 +45,18 @@ function Exits() {
         console.error(error);
       }
     }
+
+    const getSheets = async () => {
+      try {
+        await axiosClient.get("/v1/sheets").then((response) => {
+          setSheets(response.data)
+        }).catch((error) => console.log(error))
+      } catch (error) { 
+        console.error(error);
+      }
+    }
+
+    getSheets()
     getElements()
     getUsers()
   }, [selectedElements, openModalExit])
@@ -106,7 +119,14 @@ function Exits() {
             </div>
             <div className='flex flex-col gap-2 p-3'>
               <label htmlFor="sheet">Ficha</label>
-              <input id="sheet" name='sheet' type="number" min={0} placeholder='ID Ficha' className="w-full rounded-lg border border-stroke bg-transparent p-3 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" required ref={sheet} onKeyDown={handleKeyDown} />
+              <select name="sheet" id="sheet" className="w-full rounded-lg border border-stroke bg-transparent p-3 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" required ref={sheet}>
+                <option value="">Seleccionar...</option>
+                {
+                  sheets.filter((s) => s.status == 'active').map((s, index) => (
+                    <option value={s.id} key={index}>{s.id}</option>
+                  ))
+                }
+              </select>
             </div>
             <div className='flex flex-col gap-2 p-3'>
               <label htmlFor="description">Descripción</label>

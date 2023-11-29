@@ -31,6 +31,8 @@ function LogEntry() {
       getElements()
     }
 
+    document.title = "AlmaSENA | Historial de movimientos"
+
   }, [])
 
   const columns = [
@@ -41,7 +43,7 @@ function LogEntry() {
     },
     {
       field: "sheet", headerName: 'FICHA', flex: 1, valueGetter: ({ row }) => {
-        return `${row.movements.sheet == null ? '' : row.movements.sheet}`
+        return `${row.movements.sheets.id == null ? '' : row.movements.sheets.id}`
       }
     },
     {

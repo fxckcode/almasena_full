@@ -21,6 +21,8 @@ function Users() {
         if (user.rol == "user") {
             navigate("/home")
         }
+
+        document.title = "AlmaSENA | Usuarios"
     }) 
 
     useEffect(() => {

@@ -81,7 +81,7 @@ function ExitsModal({ open, onClose, data, selectedElements, formRef }) {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
       className='flex justify-center items-center'>
-      <div className='lg:w-1/2 w-[90%] bg-white p-5 rounded-lg flex-col'>
+      <div className='lg:w-[65%] w-[90%] bg-white p-5 rounded-lg flex-col max-h-[80vh] overflow-y-auto overflow-x-hidden'>
         <div className='flex justify-end'>
           <CloseIcon className='hover:text-primary transition-all' onClick={() => onClose()} />
         </div>

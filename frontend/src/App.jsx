@@ -10,10 +10,11 @@ import { UserProvider } from "./context/UserContext"
 import LogEntry from "./pages/LogEntry"
 import Exits from "./pages/Exits"
 import Redirect from "./pages/Redirect"
-import AdminRoute from "./utils/AdminRoute"
 import Profile from "./pages/Profile"
 import Users from "./pages/Users"
 import LogByUser from "./pages/LogByUser"
+import Sheets from "./pages/Sheets"
+import LogBySheet from "./pages/LogBySheet"
 
 function App() {
 
@@ -31,7 +32,9 @@ function App() {
               <Route path="/registro/:id" Component={LogEntry} />
               <Route path="/exits" Component={Exits} />
               <Route path="/users" Component={Users} />
+              <Route path="/sheets" Component={Sheets} />
               <Route path="/registro/byuser/:id/:name" Component={LogByUser} />
+              <Route path="/registro/bysheet/:id/:name" Component={LogBySheet} />
               <Route path="/" Component={Redirect} />
               <Route path="/profile" Component={Profile} />
             </Route>

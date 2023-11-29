@@ -11,6 +11,10 @@ function Profile() {
   const email = useRef(null)
   const phone = useRef(null)
 
+  useEffect(() => {
+    document.title = "AlmaSENA | Perfil"
+  }, [])
+
   const handleSubmit = async  (e) => {
     e.preventDefault()
     try {

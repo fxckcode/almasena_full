@@ -29,6 +29,7 @@ CREATE TABLE `elements` (
     `state` ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
     `id_categorie` INTEGER NOT NULL,
     `id_size` INTEGER NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     INDEX `elements_id_categorie_fkey`(`id_categorie`),
     INDEX `elements_id_size_fkey`(`id_size`),
@@ -38,7 +39,7 @@ CREATE TABLE `elements` (
 -- CreateTable
 CREATE TABLE `movements` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `sheet` INTEGER NOT NULL,
+    `sheet_id` INTEGER NOT NULL,
     `date` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `description` VARCHAR(191) NULL,
     `id_user` INTEGER NOT NULL,
@@ -69,6 +70,15 @@ CREATE TABLE `users` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `sheets` (
+    `id` INTEGER NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
+    `status` ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `details_movements` ADD CONSTRAINT `details_movements_id_element_fkey` FOREIGN KEY (`id_element`) REFERENCES `elements`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -83,3 +93,6 @@ ALTER TABLE `elements` ADD CONSTRAINT `elements_id_size_fkey` FOREIGN KEY (`id_s
 
 -- AddForeignKey
 ALTER TABLE `movements` ADD CONSTRAINT `movements_id_user_fkey` FOREIGN KEY (`id_user`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `movements` ADD CONSTRAINT `movements_sheet_id_fkey` FOREIGN KEY (`sheet_id`) REFERENCES `sheets`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

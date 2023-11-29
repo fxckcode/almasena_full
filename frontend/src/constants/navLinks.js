@@ -13,6 +13,11 @@ const navLinks = [
         "path": "/users",
         "route": "/users",
         "name": "Usuarios"
+    },
+    {
+        "path": "/sheets",
+        "route": "/sheets",
+        "name": "Fichas"
     }
 
 ]
