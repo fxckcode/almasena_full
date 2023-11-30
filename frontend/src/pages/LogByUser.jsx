@@ -9,22 +9,22 @@ import UserContext from '../context/UserContext';
 function LogByUser() {
     const { id, name } = useParams()
     const [log, setLog] = useState([])
-    const [ idUser, setIdUser ] = useState('')
-    const [ nameUser, setNameUser ] = useState('')
+    const [idUser, setIdUser] = useState('')
+    const [nameUser, setNameUser] = useState('')
     const { user } = useContext(UserContext)
     const navigate = useNavigate()
     useEffect(() => {
         if (user.rol == "user") {
             navigate("/home")
         }
-    }) 
+    })
 
     useEffect(() => {
         const getLog = async () => {
             try {
                 await axiosClient.get(`/v1/details/byuser/${parseInt(id)}`).then((response) => {
                     setLog(response.data)
-                    
+
                 })
             } catch (error) {
                 console.error(error);
@@ -75,8 +75,8 @@ function LogByUser() {
         <>
             <a href="/users" className='underline'>{'<'} Volver al inicio</a>
             <h1 className='font-semibold text-2xl text-primary mb-3'>Historial de movimiento por Usuario</h1>
-            <h2 className='mb-3'>Documento: { id }</h2>
-            <h2 className='mb-5'>Usuario: { name }</h2>
+            <h2 className='mb-3'>Documento: {id}</h2>
+            <h2 className='mb-5'>Usuario: {name}</h2>
             <Box sx={{ height: 1, width: 1 }}>
                 <DataGrid
                     disableColumnFilter
@@ -88,6 +88,9 @@ function LogByUser() {
                     slotProps={{
                         toolbar: {
                             showQuickFilter: true,
+                            printOptions: {
+                                disableToolbarButton: true,
+                            },
                         },
                     }}
                     getRowHeight={() => 'auto'}

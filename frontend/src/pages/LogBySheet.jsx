@@ -15,14 +15,14 @@ function LogBySheet() {
         if (user.rol == "user") {
             navigate("/home")
         }
-    }) 
+    })
 
     useEffect(() => {
         const getLog = async () => {
             try {
                 await axiosClient.get(`/v1/details/bysheet/${parseInt(id)}`).then((response) => {
                     setLog(response.data)
-                    
+
                 })
             } catch (error) {
                 console.error(error);
@@ -73,8 +73,8 @@ function LogBySheet() {
         <>
             <a href="/sheets" className='underline'>{'<'} Volver al inicio</a>
             <h1 className='font-semibold text-2xl text-primary mb-3'>Historial de movimiento por ID de Ficha</h1>
-            <h2 className='mb-3'>ID Ficha: { id }</h2>
-            <h2 className='mb-5'>Nombre del Programa: { name }</h2>
+            <h2 className='mb-3'>ID Ficha: {id}</h2>
+            <h2 className='mb-5'>Nombre del Programa: {name}</h2>
             <Box sx={{ height: 1, width: 1 }}>
                 <DataGrid
                     disableColumnFilter
@@ -86,6 +86,9 @@ function LogBySheet() {
                     slotProps={{
                         toolbar: {
                             showQuickFilter: true,
+                            printOptions: {
+                                disableToolbarButton: true,
+                            },
                         },
                     }}
                     getRowHeight={() => 'auto'}

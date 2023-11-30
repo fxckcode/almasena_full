@@ -80,6 +80,9 @@ function Sheets() {
                     slotProps={{
                         toolbar: {
                             showQuickFilter: true,
+                            printOptions: {
+                                disableToolbarButton: true,
+                            },
                         },
                     }}
                     initialState={{

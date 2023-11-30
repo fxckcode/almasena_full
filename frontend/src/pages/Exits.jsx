@@ -149,6 +149,9 @@ function Exits() {
             slotProps={{
               toolbar: {
                 showQuickFilter: true,
+                printOptions: {
+                  disableToolbarButton: true,
+                },
               },
             }}
             getRowHeight={() => 'auto'}

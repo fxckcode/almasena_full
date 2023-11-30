@@ -14,7 +14,7 @@ function Users() {
     const [openModalCreateUser, setOpenModalCreateUser] = useState(false)
     const [openModalEditUser, setOpenModalEditUser] = useState(false)
     const navigate = useNavigate()
-    const [ row, setRow ] = useState({})
+    const [row, setRow] = useState({})
     const { user } = useContext(UserContext)
 
     useEffect(() => {
@@ -23,7 +23,7 @@ function Users() {
         }
 
         document.title = "AlmaSENA | Usuarios"
-    }) 
+    })
 
     useEffect(() => {
         const getUser = async () => {
@@ -57,21 +57,21 @@ function Users() {
             type: 'actions',
             flex: 1,
             getActions: ({ row }) => [
-                <GridActionsCellItem 
-                    icon={<ArticleIcon />} 
-                    label="History"    
+                <GridActionsCellItem
+                    icon={<ArticleIcon />}
+                    label="History"
                     title="Historia de existencias"
                     onClick={() => {
                         navigate(`/registro/byuser/${parseInt(row.id)}/${row.name}`)
-                    }} 
+                    }}
                 />,
-                <GridActionsCellItem 
-                    icon={<EditIcon />} 
-                    label="Edit" 
+                <GridActionsCellItem
+                    icon={<EditIcon />}
+                    label="Edit"
                     onClick={() => {
                         setRow(row)
                         setOpenModalEditUser(true)
-                    }} 
+                    }}
                 />
             ]
         },
@@ -96,6 +96,9 @@ function Users() {
                     slotProps={{
                         toolbar: {
                             showQuickFilter: true,
+                            printOptions: {
+                                disableToolbarButton: true,
+                            },
                         },
                     }}
                     initialState={{
