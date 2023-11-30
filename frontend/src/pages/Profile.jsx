@@ -10,6 +10,8 @@ function Profile() {
   const name = useRef(null)
   const email = useRef(null)
   const phone = useRef(null)
+  const password = useRef(null)
+  const confirmed_password = useRef(null)
 
   useEffect(() => {
     document.title = "AlmaSENA | Perfil"
@@ -24,10 +26,21 @@ function Profile() {
         email: email.current.value,
         phone: phone.current.value
       }
+      
+      if (password.current.value !== '') {
+        if (password.current.value == confirmed_password.current.value) {
+          data.password = password.current.value;
+          password.current.value = ''
+          confirmed_password.current.value = ''
+        } else {
+          toast.error('Las contraseñas no coinciden')
+          return;
+        }
+      }
   
       await axiosClient.put(`/v1/users/${user.id}]`, data).then((response) => {
         if (response.status == 200) {
-          toast.success("Datos actulizados con exito!!!")
+          toast.success("Datos actualizados con exito!!!")
           setUser(response.data)
         }
       })
@@ -58,6 +71,14 @@ function Profile() {
         <div className='flex flex-col gap-2'>
           <label htmlFor="">Teléfono</label>
           <input type="number" className='w-full rounded-lg border border-stroke bg-transparent p-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' defaultValue={user.phone} ref={phone} placeholder='Número de telefono' onKeyDown={handleKeyDown} />
+        </div>
+        <div className='flex flex-col gap-2'>
+          <label htmlFor="">Nueva contraseña</label>
+          <input type="password" className='w-full rounded-lg border border-stroke bg-transparent p-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' placeholder='Nueva contraseña' ref={password}/>
+        </div>
+        <div className='flex flex-col gap-2'>
+          <label htmlFor="">Confirmar nueva contraseña</label>
+          <input type="password" className='w-full rounded-lg border border-stroke bg-transparent p-2 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary' placeholder='Confirmar nueva contraseña' ref={confirmed_password} />
         </div>
         <button className='p-2 text-white bg-primary rounded-lg mx-5 my-5 hover:scale-105 transition-all'>Actualizar datos</button>
       </form>
