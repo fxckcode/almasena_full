@@ -13,4 +13,5 @@
     - Ejecutar `npx prisma migrate dev` para sincronizar el cliente con la base de datos
 4. Salir de la carpeta `backend/` y entrar en la carpeta `/frontend` y correr `npm install` en la terminal
 
+5. Arrancar dos terminales, una en la carpeta `backend/` y ejecutar `npm start` y otra en la carpeta `frontend/` ejecutando el comando `npm run dev`
 
